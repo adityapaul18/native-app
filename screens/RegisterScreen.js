@@ -3,12 +3,33 @@ import { StatusBar } from "expo-status-bar";
 import { View, StyleSheet, KeyboardAvoidingView, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Button, Input, Text } from "react-native-elements";
+import { auth } from '../Firebase';
 
 const RegisterScreen = ({navigation}) => {
     const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [profilePic, setProfilePic] = useState();
+	const [profilePic, setProfilePic] = useState("");
+
+    useLayoutEffect(() => {
+		navigation.setOptions({
+			headerBackTitle: "Back to Login",
+		});
+	}, [navigation]);
+
+    const register = () => {
+		auth
+			.createUserWithEmailAndPassword(email, password)
+			.then((authUser) => {
+				authUser.user.updateProfile({
+					displayName: name,
+					photoURL:
+						profilePic ||
+						"setProfilePic://www.cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
+				});
+			})
+			.catch((error) => alert(error.message));
+	};
     return (
         <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
 			<StatusBar style="light" />
@@ -56,10 +77,16 @@ const RegisterScreen = ({navigation}) => {
 					onChangeText={(text) => setPassword(text)}
 					// onSubmitEditing={register}
 				/>
-			</View>
+                <Input
+                placeholder="Profile Picture URL (optional)"
+                type="text"
+                onChangeText={(text) => setProfilePic(text) }
+                onSubmitEditing={register}
+                />
+        </View>
 			<Button
 				containerStyle={styles.button}
-				// onPress={register}
+				onPress={register}
 				title="Register"
 				raised
 			/>

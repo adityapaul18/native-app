@@ -3,10 +3,31 @@ import React , { useEffect, useState } from 'react'
 import {StyleSheet, Text, View } from 'react-native'
 import { Button, Input , Image }  from 'react-native-elements'
 import { KeyboardAvoidingView } from "react-native";
+import { auth } from '../Firebase';
 
 const Loginscreen = ({navigation}) => {
     const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+    
+    useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((authUser) => {
+			if (authUser) {
+				navigation.replace("Home");
+			}
+		});
+		return unsubscribe;
+	}, []);
+
+    const signIn = () => {
+		auth
+			.signInWithEmailAndPassword(email, password)
+			.catch((error) => alert(error));
+	};
+
+    const RegisterNavigation = () => {
+		navigation.navigate("Register");
+	};
+
     return (
         <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
             <StatusBar style='light'/>
@@ -31,18 +52,18 @@ const Loginscreen = ({navigation}) => {
 					type="password"
 					value={password}
 					onChangeText={(text) => setPassword(text)}
-					// onSubmitEditing={signIn}
+					onSubmitEditing={signIn}
 				/>
             </View>
             <Button containerStyle={styles.button} title="Login" 
-            // onPress={signIn}
+            onPress={signIn}
              />
 			<Button
                 onPress={() => navigation.navigate("Register")}
 				containerStyle={styles.button}
 				title="Register"
 				type="outline"
-				// onPress={RegisterNavigation}
+				onPress={RegisterNavigation}
 			/>
             <View style={{height:100}} />
         </KeyboardAvoidingView>
