@@ -13,28 +13,31 @@ import ChatScreen from "./screens/ChatScreen";
 const Stack = createStackNavigator();
 const globalScreenOptions = {
     headerStyle: { backgroundColor: "#2c6bed" },
-	headerTitleStyle: { color: "white" },
-	headerTintColor: "white",
-}
+    headerTitleStyle: { color: "white" },
+    headerTintColor: "white",
+};
 export default function App() {
-  return (
-    <NavigationContainer>
-        <Stack.Navigator initialRouteName='Login' screenOptions={globalScreenOptions}>
-            <Stack.Screen name="Login" component={Loginscreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
-			 <Stack.Screen name="Home" component={HomeScreen} />
-			<Stack.Screen name="AddChat" component={AddChatScreen} />
-			<Stack.Screen name="Chat" component={ChatScreen} />
-        </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer>
+            <Stack.Navigator
+                initialRouteName="Login"
+                screenOptions={globalScreenOptions}
+            >
+                <Stack.Screen name="Login" component={Loginscreen} />
+                <Stack.Screen name="Register" component={RegisterScreen} />
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="AddChat" component={AddChatScreen} />
+                <Stack.Screen name="Chat" component={ChatScreen} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
 });
